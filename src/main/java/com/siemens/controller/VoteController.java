@@ -20,11 +20,16 @@ public class VoteController {
 	
 	@Inject
 	private VoteRepository voteRepository;
+	
 	@RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.POST)
 	public ResponseEntity<?> createVote(@PathVariable Long pollId, @RequestBody Vote vote) {
 	vote = voteRepository.save(vote);
 	HttpHeaders responseHeaders = new HttpHeaders();
-	responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vote.getId()).toUri());
+	responseHeaders.setLocation(ServletUriComponentsBuilder
+			.fromCurrentRequest()
+			.path("/{id}")
+			.buildAndExpand(vote.getId())
+			.toUri());
 	return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 	}
 	
